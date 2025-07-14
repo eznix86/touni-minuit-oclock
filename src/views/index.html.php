@@ -16,23 +16,7 @@
                 <span><?= htmlspecialchars($message) ?></span>
                 <?php if ($showCountdown): ?>
                     <div 
-                        x-data="{
-                            target: <?= $beerTimestamp ?>,
-                            days: 0, hours: 0, minutes: 0, seconds: 0,
-                            update() {
-                                let now = Math.floor(Date.now() / 1000);
-                                let diff = this.target - now;
-                                if (diff < 0) diff = 0;
-                                this.days = Math.floor(diff / 86400);
-                                this.hours = Math.floor((diff % 86400) / 3600);
-                                this.minutes = Math.floor((diff % 3600) / 60);
-                                this.seconds = diff % 60;
-                            },
-                            start() {
-                                this.update();
-                                setInterval(() => this.update(), 1000);
-                            }
-                        }"
+                        x-data="countdown"
                         x-init="start()"
                         class="mt-4 text-2xl"
                     >
@@ -50,5 +34,34 @@
             <a href="http://www.freepik.com" class="text-xs hover:text-blue-500">Designed by upklyak / Freepik</a>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('countdown', () => ({
+                target: <?= $beerTimestamp ?>,
+                days: 0,
+                hours: 0,
+                minutes: 0,
+                seconds: 0,
+                update() {
+                    let now = Math.floor(Date.now() / 1000);
+                    let diff = this.target - now;
+                    if (diff < 0) diff = 0;
+                    this.days = Math.floor(diff / 86400);
+                    this.hours = Math.floor((diff % 86400) / 3600);
+                    this.minutes = Math.floor((diff % 3600) / 60);
+                    this.seconds = diff % 60;
+                },
+                start() {
+                    this.update();
+                    setInterval(() => this.update(), 1000);
+                }
+            }));
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            Alpine.start();
+        });
+    </script>
 </body>
 </html>
