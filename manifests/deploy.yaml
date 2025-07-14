@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: touni-minuit
+  name: touni-minuit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: touni-minuit
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: touni-minuit
+    spec:
+      containers:
+      - image: registry.alexbissessur.dev/touni-minuit:latest
+        name: touni-minuit
+        resources: {}
+
+        ports:
+          - containerPort: 80
+
+        envFrom:
+          - configMapRef:
+              name: beermeetup
+status: {}
