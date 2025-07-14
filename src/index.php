@@ -22,4 +22,6 @@ if (!$beerTimestamp) {
     $showCountdown = false;
 }
 
-include 'views/index.php';
+header('Content-Type: text/html; charset=UTF-8');
+
+include 'views/index.html.php';
