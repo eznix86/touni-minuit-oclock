@@ -8,7 +8,7 @@
     <link href="assets/output.css" rel="stylesheet">
 
 </head>
-<body class="bg-black text-white font-sans m-0 p-5">
+<body class="h-screen bg-black text-white font-sans m-0">
     <div class="flex justify-center">
         <div class="relative">
             <img src="assets/logov2.png" alt="Logo" class="block max-w-full h-auto opacity-30">
@@ -20,19 +20,18 @@
                         x-init="start()"
                         class="mt-4 text-2xl"
                     >
-                        <span x-text="days"></span> days,
-                        <span x-text="hours"></span> hours,
-                        <span x-text="minutes"></span> minutes,
-                        <span x-text="seconds"></span> seconds
+                        <span x-text="days"></span>
+                        <span x-text="hours"></span>
+                        <span x-text="minutes"></span>
+                        <span x-text="seconds"></span>
                     </div>
                 <?php endif; ?>
             </div>
         </div>
     </div>
-    <footer>
-        <div class="flex justify-center">
-            <a href="http://www.freepik.com" class="text-xs hover:text-blue-500">Designed by upklyak / Freepik</a>
-        </div>
+
+    <footer class="flex justify-center">
+        <a href="http://www.freepik.com" class="text-xs hover:text-blue-500">Designed by upklyak / Freepik</a>
     </footer>
 
     <script>
@@ -43,14 +42,21 @@
                 hours: 0,
                 minutes: 0,
                 seconds: 0,
+                pluralize(value, unit) {
+                    return `${value} ${unit}${value <= 1 ? '' : 's'}`;
+                },
                 update() {
                     let now = Math.floor(Date.now() / 1000);
                     let diff = this.target - now;
                     if (diff < 0) diff = 0;
-                    this.days = Math.floor(diff / 86400);
-                    this.hours = Math.floor((diff % 86400) / 3600);
-                    this.minutes = Math.floor((diff % 3600) / 60);
-                    this.seconds = diff % 60;
+                    const days = Math.floor(diff / 86400);
+                    const hours = Math.floor((diff % 86400) / 3600);
+                    const minutes = Math.floor((diff % 3600) / 60);
+                    const seconds = diff % 60;
+                    this.days = this.pluralize(days, 'day');
+                    this.hours = this.pluralize(hours, 'hour');
+                    this.minutes = this.pluralize(minutes, 'minute');
+                    this.seconds = this.pluralize(seconds, 'second');
                 },
                 start() {
                     this.update();
@@ -59,5 +65,6 @@
             }));
         });
     </script>
+
 </body>
 </html>
