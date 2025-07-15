@@ -10,12 +10,12 @@
 </head>
 <body class="h-screen bg-black text-white font-sans m-0">
     <div class="flex justify-center">
-        <div class="relative">
+        <div class="relative mt-4">
             <img src="assets/logov2.png" alt="Logo" class="block max-w-full h-auto opacity-30">
             <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-3xl">
                 <span><?= htmlspecialchars($message) ?></span>
                 <?php if ($showCountdown): ?>
-                    <div 
+                    <div
                         x-data="countdown"
                         x-init="start()"
                         class="mt-4 text-2xl"
